@@ -1,2 +1,2 @@
 # steemh
-An alternative user interface for Steemit inspired by Hacker News.
+An alternative user interface for Steemit.com inspired by Hacker News.
