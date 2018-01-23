@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>STEEMH.COM</title>
+    <link href="/style.css" rel="stylesheet" type="text/css" media="all">
+    <script src="http://cdn.steemjs.com/lib/latest/steem.min.js"></script>
+    <script src="//cdn.steemjs.com/lib/latest/steemconnect.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.2/showdown.min.js"></script>
+    <script src="tmpl.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sammy.js/0.7.6/sammy.min.js"></script>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+  <style>
+    /*img { display:block; width:100%; height:auto; }*/
+  </style>
+</head>
+
+<body>
+  <div id='app'>
+  <div class='list-items'></div>
+  <center>
+    <table bgcolor="#f6f6ef" border="0" cellpadding="0" cellspacing="0" id="hnmain" width="85%" style="border-collapse: collapse;">
+      <tr style="height: 10px; border-bottom: 1px solid #1A5099;">
+        <td bgcolor="#FFF">
+          <table border="0" cellpadding="0" cellspacing="0" style="padding:2px" width="100%">
+            <tr>
+              <td style="width:18px;padding-right:4px">
+                <a href="#/"><svg viewBox="0 0 28 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g id="steem"><path d="M4.22924444,3.23195745 C3.94488889,3.09004255 0.337866667,6.07148936 0.337866667,8.265 C0.332888889,11.2631064 4.54533333,18.0552766 5.25466667,20.6825532 C5.86506667,22.9359149 4.21928889,25.6403191 4.67164444,25.7631064 C5.0848,26.0284255 9.01475556,22.0486383 9.16782222,20.3518298 C9.36506667,17.6498936 4.57893333,9.77114894 4.19751111,7.73682979 C3.75511111,5.36253191 4.54782222,3.28502128 4.22924444,3.23195745 L4.22924444,3.23195745 L4.22924444,3.23195745 Z" id="Fill-1" fill="#1A5099"></path><path d="M13.2321778,0.130191489 C12.8700444,-0.0505957447 8.26871111,3.74778723 8.26871111,6.54844681 C8.26373333,10.3715106 13.6353778,19.0338723 14.5394667,22.3812128 C15.3172444,25.2546809 13.2197333,28.7038298 13.7934222,28.8580851 C14.3235556,29.1949787 19.3324444,24.1242979 19.5296889,21.9573191 C19.7823111,18.5131064 13.6764444,8.46738298 13.1904889,5.86910638 C12.6267556,2.84878723 13.6353778,0.197446809 13.2321778,0.130191489 L13.2321778,0.130191489 L13.2321778,0.130191489 Z" id="Fill-2" fill="#4BA2F2"></path><path d="M22.5238222,3.23195745 C22.2419556,3.09004255 18.6324444,6.07148936 18.6324444,8.265 C18.6280889,11.2631064 22.8399111,18.0552766 23.5498667,20.6825532 C24.1596444,22.9359149 22.5144889,25.6403191 22.9662222,25.7631064 C23.3818667,26.0284255 27.3124444,22.0486383 27.4630222,20.3518298 C27.6596444,17.6498936 22.8741333,9.77114894 22.4920889,7.73682979 C22.0503111,5.36253191 22.8424,3.28502128 22.5238222,3.23195745 L22.5238222,3.23195745 Z" id="Fill-3" fill="#1A5099"></path></g></g></svg></a>
+              </td>
+
+              <td style="line-height:12pt; height:10px;"><span class="pagetop"><b class="hnname"><a href="#/">STEEMH</a></b> <a href="#/new">new</a> | <a href="#/hot">hot</a> | <a href="#/promoted">promoted</a> | <a href="#/steemgigs">gigs</a> | <a href="#/submit">submit</a></span>
+              </td>
+
+
+              <td style="text-align:right;padding-right:4px;"><span class="pagetop" id="loginspan"><a href="#" onClick="redirect()">login</a></span>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+
+      <tr>
+        <td>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+
+          <table border="0" cellpadding="0" cellspacing="0" class="itemlist" id="itemlist">
+          <tr style="height:10px"></tr>
+
+          <template v-for="(article, i) in articles">
+            
+            <tr class='athing'>
+              <td align="right" class="title" valign="top"><span class="rank">{{ i+1 }}.</span>
+              </td>
+              
+            <!--{%= voteclass = '' %}-->
+            <!--{% for (var j=0; j<o.articles[i]["active_votes"].length; j++) { %}-->
+            <!--  {% if (o.articles[i]["active_votes"][j]["voter"] == o.user) {voteclass = "votearrowup"}%}-->
+            <!--{% } %}-->
+            
+              <td class="votelinks" valign="top">
+                
+                  <a href='#' v-on:click="upVote('adept', article.author, article.permlink)">
+                  <div class='{%=voteclass%} votearrow' title='upvote' v-bind:id="article.id">
+                  &#9650;
+                  </div></a>
+                
+              </td>
+              <td class="title">
+                <a class="storylink" v-bind:href="'#/post'+article.url+''">{{ article.title }}</a> <span class="sitebit comhead"></span>
+              </td>
+            </tr>
+
+
+            <tr>
+              <td colspan="2">
+              </td>
+
+              <td class="subtext">
+                <span class="score">${{ article.pending_payout_value.replace(' SBD','') }}</span> by <a class="hnuser" href="#">{{ article.author }}</a> <span class="age"><a href="#">{{ msToTime(Math.abs(new Date() - new Date(article.created))) }}</a></span> <span id="unv_14861925"></span> | <a href="hide?id=14861925&amp;goto=news&amp;auth=b0b3556b32c32c65ede4e63df73d7ea8c658fa2d" onclick="return hidestory(event, this, 14861925)">↻</a> | <a href="item?id=14861925">{{ article.active_votes.length }}&nbsp;comments</a>
+              </td>
+            </tr>
+
+
+            <tr class="spacer" style="height:5px">
+              <td>
+              </td>
+            </tr>
+		       </template>
+		      
+            <tr class="morespace" style="height:10px">
+              <td>
+              </td>
+            </tr>
+
+
+            <tr>
+              <td colspan="2">
+              </td>
+
+              <td class="title">
+                <a class="morelink" href="#" rel="nofollow">More</a>
+              </td>
+            </tr>
+
+          </table>
+
+          
+        <script type="text/x-tmpl" id="selectedpost">
+          <table border="0" cellpadding="0" cellspacing="0" class="itemlist" data-escape="false" id="postitem">
+          <tr style="height:10px"></tr>
+          
+          {% for (var i=0; i<o.articles.length; i++) { %}
+            
+            <tr class='athing'>
+              <td align="right" class="title" valign="top">
+              </td>
+              
+            {%= voteclass = '' %}
+            {% for (var j=0; j<o.articles[i]["active_votes"].length; j++) { %}
+              {% if (o.articles[i]["active_votes"][j]["voter"] == o.user) {voteclass = "votearrowup"}%}
+            {% } %}
+            
+              <td class="votelinks" valign="top">
+                
+                  <a href='#' onclick='steemconnect.vote("{%=o.user%}", "{%=o.articles[i]["author"]%}", "{%=o.articles[i]['permlink']%}", 100, function(err, result) { console.log(err, result); }); document.getElementById("{%=o.articles[i]["id"]%}").className = "votearrowup";'>
+                  <div class='{%=voteclass%} votearrow' title='upvote' id='{%=o.articles[i]["id"]%}'>
+                  &#9650;
+                  </div></a>
+                
+              </td>
+              <td class="title">
+                <a class="storylink" href="placeholder" onclick="loadpost('{%=o.articles[i]['url']%}'); return false;">{%=o.articles[i]['title']%}</a> <span class="sitebit comhead"></span>
+              </td>
+            </tr>
+
+
+            <tr>
+              <td colspan="2">
+              </td>
+
+              <td class="subtext">
+                <span class="score">${%=o.articles[i]['pending_payout_value'].replace(' SBD','')%}</span> by <a class="hnuser" href="#">{%=o.articles[i]['author']%}</a> <span class="age"><a href="#">{ msToTime(Math.abs(new Date() - new Date(article.created))) }</a></span> <span id="unv_14861925"></span> | <a href="hide?id=14861925&amp;goto=news&amp;auth=b0b3556b32c32c65ede4e63df73d7ea8c658fa2d" onclick="return hidestory(event, this, 14861925)">↻</a> | <a href="item?id=14861925">{%=o.articles[i]["active_votes"].length%}&nbsp;comments</a>
+              </td>
+            </tr>
+
+
+            <tr class="spacer" style="height:5px">
+              <td>
+              </td>
+            </tr>
+            {% } %}
+		      
+		      
+            <tr style="height:2px">
+              <td>
+              </td>
+            </tr>
+
+
+            <tr>
+              <td colspan="2">
+              </td>
+
+              <td id='postbody' style="">
+                
+              </td>
+            </tr>
+
+
+            <tr style="height:10px">
+              <td>
+              </td>
+            </tr>
+
+
+            <tr>
+              <td colspan="2">
+              </td>
+
+              <td>
+                <form action="comment" method="post">
+                  <input name="parent" type="hidden" value="14937582"><input name="goto" type="hidden" value="item?id=14937582"><input name="hmac" type="hidden" value="18a23b443bb2d88b6e5b10ff901e74515f3626d5">
+
+                  <textarea cols="60" name="text" rows="6"></textarea><br>
+                  <br>
+                  <input type="submit" value="add comment">
+                </form>
+              </td>
+            </tr>
+          </script>
+
+        <script  type="text/x-tmpl" id="commentstable">
+          <br><br>
+          <table border="0" class="comment-tree" data-escape="false">
+            <tbody>
+              {% for (var i=0; i<o.comments.length; i++) { %}
+              <tr class="athing comtr">
+                <td>
+                  <table border="0" data-escape="false">
+                    <tbody>
+                      <tr>
+                        <td class="ind"><img height="1" src="s.gif" width="{%=o.comments[i]['depth']*20%}">
+                        </td>
+        
+                        <td class="votelinks" valign="top">
+                          <center>
+                            <a href="">
+                            <div class="votearrow" title="upvote">
+                            &#9650;
+                            </div></a>
+                          </center>
+                        </td>
+        
+                        <td class="default">
+                          <div style="margin-top:2px; margin-bottom:-10px;">
+                            <span class="comhead"><a class="hnuser" href="user">{%=o.comments[i].author%}</a> <span class="age"><a href="">{%=msToTime(Math.abs(new Date() - new Date(o.comments[i]['created'])))%}</a></span> <span id=""></span><span class="par"></span> <a class="togg" href="" >[-]</a> <span class="storyon"></span></span>
+                          </div>
+                          <br>
+        
+                          <div class="comment">
+                            <span class="convertedcomment"></span>
+                            <div class="reply">
+                              <p><font size="1"><u><a href="reply">reply</a></u></font>
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+              {% } %}
+            </tbody>
+          </table>
+        </script>
+
+        </td>
+      </tr>
+
+
+      <tr>
+        <td>
+<!--           <img height="10" src="https://news.ycombinator.com/s.gif" width="0"> -->
+          <table cellpadding="0" cellspacing="0" width="100%">
+            <tr style="height:1px;border-bottom: 1px solid #1A5099">
+              <td bgcolor="#1A5099">
+              </td>
+            </tr>
+          </table>
+          <br>
+
+
+          <center>
+            <span class="yclinks"><a href="#">FAQ</a> | <a href="#">Security</a> | <a href="#">Stats</a> | <a href="#">Links</a> | <a href="https://steemit.com/@adept">Contact</a></span><br>
+            <br>
+
+
+            <form action="#" method="get">
+              Search: <input autocomplete="false" name="q" size="17" spellcheck="false" type="text" value="">
+            </form>
+          </center>
+        </td>
+      </tr>
+    </table>
+  </center>
+  </div>
+  </body>
+</html>
+
+<script>
+steem.api.setOptions({ url: 'https://api.steemit.com'});
+
+let router = new VueRouter({
+    mode: 'hash',
+    base: 'https://steemh.com/',
+    routes: []
+});
+
+let app = new Vue({
+  el: "#app",
+  router: router,
+  data: {
+    articles: [],
+    coinData: {}
+  },
+  methods: {
+
+    getArticles: function() {
+      let self = this;
+      steem.api.getDiscussionsByTrending({limit: 20}, function(err, result) {
+        self.articles = result;
+      });
+    },
+
+
+    upVote: function(user, author, permlink) {
+      steemconnect.vote(user, author, permlink, 100, function(err, result) { console.log(err, result); });
+      // document.getElementById("{%=o.articles[i]["id"]%}").className = "votearrowup";
+    },
+
+    msToTime: function (duration) {
+      var milliseconds = parseInt((duration%1000)/100)
+        , seconds = parseInt((duration/1000)%60)
+        , minutes = parseInt((duration/(1000*60))%60)
+        , hours = parseFloat((duration/(1000*60*60))).toFixed(3);
+        // hours = (hours < 10) ? "0" + hours : hours;
+        minutes = (minutes < 10) ? "0" + minutes : minutes;
+        seconds = (seconds < 10) ? "0" + seconds : seconds;
+        return hours + " hours ago";
+    }
+    
+  },
+  created: function() {
+    this.getArticles();
+  }
+});
+</script>
+
+<script>
+steemconnect.init({
+  app: 'adept',
+  callbackURL: 'https://steem.neocities.org'
+});
+var isAuth = false;
+var loginURL = steemconnect.getLoginURL();
+
+var loggedinuser = '';
+
+steemconnect.isAuthenticated(function(err, result) {
+  if (!err && result.isAuthenticated) {
+    isAuth = true;
+    var username = result.username;
+    loggedinuser = result.username;
+    //do more
+    console.log("logged in user: " + username);
+    // document.getElementById("loginspan").innerHTML = "@"+ username + " | <a href='https://steemconnect.com/logout'>logout</a>";
+  }
+});
+
+function redirect() {
+  window.location = loginURL;
+}
+
+function msToTime(duration) {
+  var milliseconds = parseInt((duration%1000)/100)
+    , seconds = parseInt((duration/1000)%60)
+    , minutes = parseInt((duration/(1000*60))%60)
+    , hours = parseFloat((duration/(1000*60*60))).toFixed(3);
+    // hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+    return hours + " hours ago";
+}
+</script>
+<!--
+<script>
+// initialize the application
+steem.api.setOptions({ url: 'https://api.steemit.com'});
+var converter = new showdown.Converter({literalMidWordUnderscores: true});
+var app = $.sammy(function() {
+
+  // define a 'route'
+  this.get('#/', function() {
+    steem.api.getDiscussionsByTrending({limit: 20}, function(err, result) {
+      $("#postitem").hide();
+      $("#commentsplace").hide();
+      $("#itemlist").show();
+      $("#itemlist2").replaceWith( tmpl("itemlist2", {articles:result}) );
+    });
+  });
+  
+  this.get('#/post/:tag/:user/:title', function() {
+    steem.api.getContent(this.params.user.replace("@",""), this.params.title, function(err, result) {
+      $("#itemlist").hide();
+      $("#postitem").show();
+      body = converter.makeHtml(result['body'])
+      $("#postplace").html( tmpl("selectedpost", {articles:[result], body:body}) );
+      $("#postbody").html(body);
+    });
+    steem.api.getState('/'+this.params.tag+'/'+this.params.user+'/'+this.params.title, function(err, result) {
+      comments = [];
+      $.each(result['content'], function(i,c){
+        // console.log(c);
+        comments.push(c);
+      });
+      $("#commentsplace").show();
+      $("#commentsplace").html( tmpl("commentstable", {comments: comments.reverse()}) );
+      
+      $.each(comments, function(i,c){
+        $('.convertedcomment').eq(i).html(converter.makeHtml(comments[i]['body']));
+      });
+      // one = [];
+      // $.each(comments, function(i,c) {
+      //   if ( c['depth'] == 1 ) {
+      //     one.push(c);
+      //   };
+      // });
+      // one = one.sort(function (a, b) {
+      //   return b.author_rewards - a.author_rewards;
+      // });
+      // $.each(one, function(i,c) {
+      //   // console.log(i);
+      //   // console.log(c['id']);
+      //   // console.log(c['root_comment']);
+      //   $.each(comments, function(x, y) {
+      //     console.log(y);
+      //     // console.log(c['id']);
+      //     // console.log(y['root_comment']+' '+y['id']);
+      //     // console.log(y['depth']);
+      //   });
+      // });
+    });
+  });
+  
+});
+
+steemconnect.init({
+  app: 'adept',
+  callbackURL: 'https://steem.neocities.org'
+});
+var isAuth = false;
+var loginURL = steemconnect.getLoginURL();
+
+var loggedinuser = '';
+
+steemconnect.isAuthenticated(function(err, result) {
+  if (!err && result.isAuthenticated) {
+    isAuth = true;
+    var username = result.username;
+    loggedinuser = result.username;
+    //do more
+    console.log("logged in user: " + username);
+    document.getElementById("loginspan").innerHTML = "@"+ username + " | <a href='https://steemconnect.com/logout'>logout</a>";
+  }
+});
+
+function redirect() {
+  window.location = loginURL;
+}
+// start the application
+app.run('#/');
+
+function msToTime(duration) {
+  var milliseconds = parseInt((duration%1000)/100)
+    , seconds = parseInt((duration/1000)%60)
+    , minutes = parseInt((duration/(1000*60))%60)
+    , hours = parseFloat((duration/(1000*60*60))).toFixed(3);
+    // hours = (hours < 10) ? "0" + hours : hours;
+    minutes = (minutes < 10) ? "0" + minutes : minutes;
+    seconds = (seconds < 10) ? "0" + seconds : seconds;
+    return hours + " hours ago";
+}
+</script>
+-->
